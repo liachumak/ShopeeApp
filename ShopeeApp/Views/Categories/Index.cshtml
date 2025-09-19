@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Категорії";
+}
+
+<h2 class="text-center">Оберіть категорію</h2>
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-4">
+        <a href="@Url.Action("Index", "Products", new { categoryId = 2 })" class="text-decoration-none text-dark">
+            <div class="card shadow-sm">
+                <img src="/images/hp_1.jpg" class="card-img-top" style="height: 200px; object-fit: cover;" alt="Ноутбуки">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Ноутбуки</h5>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-4">
+        <a href="@Url.Action("Index", "Products", new { categoryId = 1 })" class="text-decoration-none text-dark">
+            <div class="card shadow-sm">
+                <img src="/images/iPhone17_1.jpg" class="card-img-top" style="height: 200px; object-fit: cover;" alt="Телефони">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Телефони</h5>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+

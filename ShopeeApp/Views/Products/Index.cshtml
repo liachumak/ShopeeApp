@@ -1,0 +1,35 @@
+﻿@model IEnumerable<ShopeeApp.Models.Product.Product>
+
+<h2 class="mb-4">Продукти</h2>
+
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    @foreach (var product in Model)
+    {
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-center">@product.Name</h5>
+
+                    <div class="d-flex justify-content-center mb-3 flex-wrap gap-2">
+                        @foreach (var image in product.Images)
+                        {
+                            <img src="@Url.Content("~/images/" + image.FileName)"
+                                 alt="@product.Name"
+                                 class="img-thumbnail"
+                                 style="width: 200px; height: auto;" />
+                        }
+                    </div>
+
+                    <p class="card-text text-muted">@product.Description</p>
+
+                    <div class="d-flex justify-content-between">
+						<hr />
+                        <span><strong>Ціна:</strong> @product.Price ₴</span>
+                        <span><strong>Категорія:</strong> @product.Category.Name</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

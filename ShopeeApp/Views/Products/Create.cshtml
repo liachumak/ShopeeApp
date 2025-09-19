@@ -1,0 +1,69 @@
+﻿@model ShopeeApp.ViewModels.ProductCreateViewModel
+
+@{
+    ViewData["Title"] = "Додати продукт";
+}
+
+<h2>Додати продукт</h2>
+
+<form asp-action="Create" method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label class="form-label">Категорія</label>
+        <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories"></select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Назва продукту</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Опис</label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Ціна</label>
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Фото (оберіть кілька)</label>
+        <input type="file" name="Images" multiple class="form-control" id="imageInput" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Попередній перегляд та сортування:</label>
+        <ul id="imageList" class="list-group"></ul>
+    </div>
+
+    <button type="submit" class="btn btn-success">Додати</button>
+</form>
+
+@section Scripts {
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <script>
+        const input = document.getElementById("imageInput");
+        const list = document.getElementById("imageList");
+
+        input.addEventListener("change", () => {
+            list.innerHTML = "";
+            Array.from(input.files).forEach((file, i) => {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    const li = document.createElement("li");
+                    li.className = "list-group-item";
+                    li.innerHTML = `<img src="${e.target.result}" style="height:100px; margin-right:10px;" /> ${file.name}`;
+                    list.appendChild(li);
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+
+        $(function () {
+            $("#imageList").sortable(); // Enable drag-n-drop
+        });
+    </script>
+}
