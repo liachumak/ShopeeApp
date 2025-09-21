@@ -21,4 +21,6 @@ public class Product
     public ShopeeApp.Models.Category.Category Category { get; set; }
 
     public List<ProductImage> Images { get; set; }
+    public bool IsDeleted { get; set; } = false;
+
 }

@@ -28,6 +28,13 @@
                         <span><strong>Ціна:</strong> @product.Price ₴</span>
                         <span><strong>Категорія:</strong> @product.Category.Name</span>
                     </div>
+                    <div class="d-flex justify-content-between mt-2">
+                        <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-success btn-sm">Редагувати</a>
+                        <form asp-action="Delete" asp-route-id="@product.Id" method="post" onsubmit="return confirm('Ви впевнені, що хочете видалити цей продукт?');">
+                            <button type="submit" class="btn btn-danger btn-sm">Видалити</button>
+                        </form>
+                    </div>
+
                 </div>
             </div>
         </div>

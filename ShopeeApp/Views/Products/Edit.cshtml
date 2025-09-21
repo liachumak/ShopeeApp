@@ -1,0 +1,161 @@
+﻿@model ShopeeApp.ViewModels.ProductEditViewModel
+
+@{
+    ViewData["Title"] = "Редагувати продукт";
+}
+
+<h2>Редагувати продукт</h2>
+
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Id" />
+
+    <!-- Назва -->
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label">Назва</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <!-- Опис -->
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label">Опис</label>
+        <textarea asp-for="Description" class="form-control" id="tiny-editor"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <!-- Ціна -->
+    <div class="mb-3">
+        <label asp-for="Price" class="form-label">Ціна</label>
+        <input asp-for="Price" class="form-control" type="number" step="0.01" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+
+    <!-- Категорія -->
+    <div class="mb-3">
+        <label asp-for="CategoryId" class="form-label">Категорія</label>
+        <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories"></select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+
+    <!-- Завантаження фото -->
+    <div class="mb-3">
+        <label class="form-label">Фото продукту:</label>
+        <input type="file" id="imageInput" multiple class="form-control" />
+        <small class="form-text text-muted">Оберіть фото для додавання. Ви можете перетягувати всі фото, щоб змінити порядок.</small>
+    </div>
+
+    <!-- Список зображень -->
+    <ul id="imageList" class="list-group">
+        @foreach (var image in Model.ExistingImages.OrderBy(i => i.Priority))
+        {
+            <li class="list-group-item d-flex align-items-center" data-type="existing" data-id="@image.Id">
+                <input type="hidden" name="ImageOrder" value="existing:@image.Id" />
+                <img src="~/images/@image.FileName" style="height:80px; margin-right:10px;" />
+                <span class="me-auto">@image.FileName</span>
+                <button type="button" class="btn btn-danger btn-sm ms-2 remove-btn">✖</button>
+            </li>
+        }
+    </ul>
+
+    <!-- Сюди додаються нові input[file] -->
+    <div id="newImageInputs"></div>
+
+    <button type="submit" class="btn btn-success mt-3">Зберегти</button>
+</form>
+
+@section Scripts {
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script>
+        // Ініціалізація TinyMCE
+        tinymce.init({
+            selector: '#tiny-editor'
+        });
+
+        // Сортування
+        $(function () {
+            $("#imageList").sortable();
+        });
+
+        let imageInput = document.getElementById("imageInput");
+        let imageList = document.getElementById("imageList");
+        let newImageInputs = document.getElementById("newImageInputs");
+        let newImageIndex = 0;
+
+        // Обробка додавання нових зображень
+        imageInput.addEventListener("change", function () {
+            Array.from(this.files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const li = document.createElement("li");
+                    li.className = "list-group-item d-flex align-items-center";
+                    li.setAttribute("data-type", "new");
+                    li.setAttribute("data-id", newImageIndex);
+
+                    // Поле порядку
+                    const hiddenOrder = document.createElement("input");
+                    hiddenOrder.type = "hidden";
+                    hiddenOrder.name = "ImageOrder";
+                    hiddenOrder.value = `new:${newImageIndex}`;
+                    li.appendChild(hiddenOrder);
+
+                    // Мініатюра
+                    li.innerHTML += `
+                        <img src="${e.target.result}" style="height:80px; margin-right:10px;" />
+                        <span class="me-auto">${file.name}</span>
+                        <button type="button" class="btn btn-danger btn-sm ms-2 remove-btn">✖</button>
+                    `;
+
+                    imageList.appendChild(li);
+
+                    // Сховане поле для файла
+                    const fileInput = document.createElement("input");
+                    fileInput.type = "file";
+                    fileInput.name = "NewImages";
+                    fileInput.files = createFileList([file]);
+                    fileInput.style.display = "none";
+                    fileInput.setAttribute("data-id", newImageIndex);
+                    newImageInputs.appendChild(fileInput);
+
+                    newImageIndex++;
+                };
+                reader.readAsDataURL(file);
+            });
+
+            // Очистити input (щоб можна було завантажити ті ж файли знову)
+            this.value = "";
+        });
+
+        // Видалення зображення
+        document.addEventListener("click", function (e) {
+            if (e.target.classList.contains("remove-btn")) {
+                const li = e.target.closest("li");
+                const dataType = li.getAttribute("data-type");
+                const dataId = li.getAttribute("data-id");
+
+                if (dataType === "new") {
+                    // Видалити input[file]
+                    const input = newImageInputs.querySelector(`[data-id="${dataId}"]`);
+                    if (input) input.remove();
+                } else if (dataType === "existing") {
+                    // Додати hidden input для видалення
+                    const deleteInput = document.createElement("input");
+                    deleteInput.type = "hidden";
+                    deleteInput.name = "DeletedImageIds";
+                    deleteInput.value = dataId;
+                    newImageInputs.appendChild(deleteInput);
+                }
+
+                li.remove();
+            }
+        });
+
+        // Створити FileList з масиву файлів (для додавання input[file])
+        function createFileList(files) {
+            const dataTransfer = new DataTransfer();
+            files.forEach(f => dataTransfer.items.add(f));
+            return dataTransfer.files;
+        }
+    </script>
+}
