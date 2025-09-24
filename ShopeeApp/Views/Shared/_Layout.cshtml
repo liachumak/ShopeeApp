@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -17,6 +21,7 @@
             <div class="container-fluid">
                 <a class="navbar-brand" href="/">ShopeeApp</a>
                 <div class="collapse navbar-collapse">
+                  
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Categories" asp-action="Index">Категорії</a>
@@ -24,7 +29,33 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Products" asp-action="Index">Продукти</a>
                         </li>
+
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            var user = await UserManager.GetUserAsync(User);
+
+                            <li class="nav-item d-flex align-items-center">
+                                @if (!string.IsNullOrEmpty(user?.ProfileImageUrl))
+                                {
+                                    <img src="@user.ProfileImageUrl" alt="Фото" width="40" height="40" style="border-radius: 50%; margin-right: 8px;" />
+                                }
+                                <span class="text-white me-3">@user?.FullName</span>
+                                <a class="btn btn-outline-light btn-sm" asp-controller="Account" asp-action="Logout">Вийти</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Account" asp-action="Login">Увійти</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Account" asp-action="Register">Реєстрація</a>
+                            </li>
+                        }
                     </ul>
+
+                </div>
+
                 </div>
             </div>
         </nav>
