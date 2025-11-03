@@ -1,0 +1,39 @@
+﻿@model Microsoft.AspNetCore.Identity.IdentityRole
+
+@{
+    ViewData["Title"] = "Видалити роль";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h5>Видалення ролі: @Model.Name</h5>
+    </div>
+
+    <div class="card-body">
+        @if (ViewBag.Users != null)
+        {
+            <div class="alert alert-warning">
+                <strong>Увага!</strong> Ця роль призначена наступним користувачам:
+                <ul>
+                    @foreach (var user in (List<string>)ViewBag.Users)
+                    {
+                        <li>@user</li>
+                    }
+                </ul>
+                <p>Щоб видалити роль, спочатку зніміть її з усіх користувачів у розділі <strong>Users</strong>.</p>
+                <a asp-action="Index" class="btn btn-secondary">Назад</a>
+            </div>
+        }
+        else
+        {
+            <form asp-action="Delete" method="post">
+                @Html.AntiForgeryToken()
+                <p>Ви впевнені, що хочете видалити роль <strong>@Model.Name</strong>?</p>
+                <button type="submit" class="btn btn-danger">Підтвердити видалення</button>
+                <a asp-action="Index" class="btn btn-secondary">Скасувати</a>
+            </form>
+        }
+    </div>
+</div>
+

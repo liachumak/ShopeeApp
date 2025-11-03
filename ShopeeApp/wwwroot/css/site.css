@@ -19,4 +19,64 @@ html {
 
 body {
   margin-bottom: 60px;
+<<<<<<< Updated upstream
 }
+=======
+}
+
+img.profile-avatar {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+}
+.profile-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+/* Стилі для форм реєстрації та логіну */
+form {
+    width: 100%;
+}
+
+    form .form-label {
+        font-weight: 500;
+    }
+
+    form .form-control {
+        padding: 10px;
+        font-size: 1rem;
+    }
+
+    form .form-check-label {
+        font-size: 0.95rem;
+    }
+
+    form button[type="submit"] {
+        font-size: 1.1rem;
+        padding: 10px;
+    }
+
+/* Картка для форм */
+.card {
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.card-header {
+    font-size: 1.25rem;
+}
+
+/* Центрування і відступи */
+.container {
+    margin-top: 50px;
+}
+
+/* Автозаповнення та помилки */
+span.text-danger {
+    font-size: 0.9rem;
+}
+
+>>>>>>> Stashed changes

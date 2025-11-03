@@ -1,0 +1,118 @@
+﻿@*
+  Materio Admin Layout (адаптований під ASP.NET Core Area)
+  Зберігається: Areas/Admin/Views/Shared/_AdminLayout.cshtml
+*@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Admin Panel</title>
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="~/admin/wwwroot/css/demo.css" />
+    <link rel="stylesheet" href="~/admin/wwwroot/css/site.css" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="~/admin/vendor/css/pages/page-account-settings.css" />
+    <link rel="stylesheet" href="~/admin/vendor/css/pages/page-auth.css" />
+    <link rel="stylesheet" href="~/admin/vendor/css/pages/page-icons.css" />
+    <link rel="stylesheet" href="~/admin/vendor/css/pages/page-misc.css" />
+    <link rel="stylesheet" href="~/admin/vendor/css/core.css" />
+
+    <!-- JS helpers -->
+    <script src="~/admin/wwwroot/vendor/js/helpers.js"></script>
+    <script src="~/admin/wwwroot/vendor/js/bootstrap.js"></script>
+    <script src="~/admin/wwwroot/vendor/js/menu.js"></script>
+    <script src="~/admin/js/config.js"></script>
+
+    @* Додаткові стилі сторінок *@
+    @RenderSection("VendorStyles", required: false)
+</head>
+
+
+<body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            <!-- Menu -->
+            <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+                <div class="app-brand demo">
+                    <a href="/Admin/Dashboard" class="app-brand-link">
+                        <span class="app-brand-text demo menu-text fw-bolder ms-2">Materio Admin</span>
+                    </a>
+                </div>
+
+                <ul class="menu-inner py-1">
+                    <li class="menu-item active">
+                        <a href="/Admin/Dashboard" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-home"></i>
+                            <div>Dashboard</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="/Admin/Users" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-user"></i>
+                            <div>Users</div>
+                        </a>
+                    </li>
+                    <
+                    <li class="menu-item">
+                        <a href="/Admin/Role" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-shield"></i>
+                            <div>Roles</div>
+                        </a>
+                    </li>
+
+
+                </ul>
+            </aside>
+            <!-- /Menu -->
+            <!-- Layout container -->
+            <div class="layout-page">
+                <!-- Navbar -->
+                <nav class="layout-navbar navbar navbar-expand-xl align-items-center bg-navbar-theme">
+                    <div class="navbar-nav-right d-flex align-items-center">
+                        <span class="fw-bold">Admin Panel</span>
+                    </div>
+                </nav>
+                <!-- /Navbar -->
+                <!-- Content wrapper -->
+                <div class="content-wrapper">
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        @RenderBody()
+                    </div>
+                    <footer class="content-footer footer bg-footer-theme">
+                        <div class="container-xxl d-flex justify-content-between py-2">
+                            <div>Materio Admin © 2025</div>
+                        </div>
+                    </footer>
+                </div>
+                <!-- /Content wrapper -->
+            </div>
+            <!-- /Layout page -->
+        </div>
+    </div>
+    <!-- /Layout wrapper -->
+    <!-- Core JS -->
+    <script src="~/admin/vendors/js/jquery/jquery.js"></script>
+    <script src="~/admin/vendors/js/popper/popper.js"></script>
+    <script src="~/admin/vendors/js/bootstrap/bootstrap.js"></script>
+    <script src="~/admin/vendors/js/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="~/admin/js/menu.js"></script>
+
+    <!-- Vendors JS -->
+    <script src="~/admin/vendors/js/apex-charts/apexcharts.js"></script>
+
+    <!-- Main JS -->
+    <script src="~/admin/js/main.js"></script>
+
+    @RenderSection("VendorScripts", required: false)
+    @RenderSection("PageScripts", required: false)
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
+
+
+

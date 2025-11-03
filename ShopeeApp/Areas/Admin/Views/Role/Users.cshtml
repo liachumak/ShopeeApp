@@ -1,0 +1,52 @@
+﻿@model ShopeeApp.Areas.Admin.Controllers.RoleUsersViewModel
+
+@{
+    ViewData["Title"] = $"Користувачі ролі {Model.RoleName}";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5>Користувачі ролі: @Model.RoleName</h5>
+        <a asp-action="Index" class="btn btn-secondary">⬅ Назад</a>
+    </div>
+
+    <div class="card-body">
+        @if (Model.Users.Any())
+        {
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Ім’я</th>
+                        <th>Email</th>
+                        <th>Дії</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model.Users)
+                    {
+                        <tr>
+                            <td>@(user.FullName ?? user.UserName)</td>
+                            <td>@user.Email</td>
+                            <td>
+                                <form asp-action="RemoveUserFromRole" method="post" style="display:inline">
+                                    <input type="hidden" name="userId" value="@user.Id" />
+                                    <input type="hidden" name="roleName" value="@Model.RoleName" />
+                                    <button type="submit" class="btn btn-sm btn-danger"
+                                            onclick="return confirm('Видалити користувача @user.FullName з ролі @Model.RoleName?');">
+                                        Видалити
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-info">У ролі <strong>@Model.RoleName</strong> ще немає користувачів.</div>
+        }
+    </div>
+</div>
+

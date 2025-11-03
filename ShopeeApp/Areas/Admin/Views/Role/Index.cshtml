@@ -1,0 +1,53 @@
+﻿@model IEnumerable<ShopeeApp.Areas.Admin.Controllers.RoleWithUsersViewModel>
+
+@{
+    ViewData["Title"] = "Ролі користувачів";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5>Список ролей</h5>
+        <a asp-action="Create" class="btn btn-primary">➕ Створити роль</a>
+    </div>
+
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Назва ролі</th>
+                    <th>Користувачі</th>
+                    <th>Дії</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var role in Model)
+                {
+                    <tr>
+                        <td>@role.RoleName</td>
+                        <td>
+                            @if (role.Users.Any())
+                            {
+                                <ul class="m-0">
+                                    @foreach (var user in role.Users)
+                                    {
+                                        <li>@user</li>
+                                    }
+                                </ul>
+                            }
+                            else
+                            {
+                                <span class="text-muted">Немає користувачів</span>
+                            }
+                        </td>
+                        <td>
+                            <a asp-action="Users" asp-route-id="@role.RoleId" class="btn btn-sm btn-info">👥 Переглянути</a>
+                            <a asp-action="Delete" asp-route-id="@role.RoleId" class="btn btn-sm btn-danger">🗑 Видалити роль</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "Створення ролі";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h5>Створити нову роль</h5>
+    </div>
+
+    <div class="card-body">
+        <form asp-action="Create" method="post">
+            <div class="mb-3">
+                <label for="name" class="form-label">Назва ролі</label>
+                <input type="text" name="name" id="name" class="form-control" required />
+            </div>
+
+            <button type="submit" class="btn btn-success">Зберегти</button>
+            <a asp-action="Index" class="btn btn-secondary">Назад</a>
+        </form>
+    </div>
+</div>
